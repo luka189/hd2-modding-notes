@@ -11,6 +11,7 @@ Last checked on game build Steam 26251122 (patch 7.2.2, 2026-10-29) with Chef Sh
 | [docs/ONBOARDING.md](docs/ONBOARDING.md) | The toolchain, the Lua environment, what ends the game, reading game state, units and scenery, drawing, performance, testing outside the game |
 | [docs/FIELDS.md](docs/FIELDS.md) | The fields of the Helldiver, the player object, weapons and backpacks: ids, real names, values |
 | [docs/ICONS.md](docs/ICONS.md) | The game's HUD textures and atlas sprites, the icon materials, the texture layouts the game accepts, the data folder's formats |
+| [docs/SCENERY.md](docs/SCENERY.md) | Boxes in place of a raycast: the scenery data, how the boxes are made and chosen, and the test of a line against them in the game |
 | [docs/PATCHING.md](docs/PATCHING.md) | What a game patch can move, the network config's format, names for new ids |
 | [CREDITS.md](CREDITS.md) | Where the findings came from |
 
@@ -36,6 +37,12 @@ has not been tied to a crash.
 - `crack_thin.c` needs a C compiler with OpenMP.
 - The tools that read the installed game only read it. `atlas_sprites.py` and `material_dump.py` were last run
   against game build 26088801.
+
+## Lua
+
+| File | What it does |
+| --- | --- |
+| [lua/scenery.lua](lua/scenery.lua) | A line against a unit's scenery boxes in plain Lua 5.1, with no engine calls: the unit's frame, the box round a kind's boxes, the test of a segment against plain and turned boxes |
 
 ## Data
 
