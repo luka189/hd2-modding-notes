@@ -46,7 +46,8 @@ shipped texture has to look like.
   (three stims, 128 px, page 1667261d881bd08a), e1ebfa9b… (a grenade can, 64 px, page f9a3f22a93eedcbd).
 - The fire-mode sprites carry a lot of padding: a fire mode's bullets fill about 0.48 x 0.17 of the sprite's
   square. Aligning an icon by its drawn pixels needs the ink box per sprite.
-- The rectangles change when an atlas is repacked.
+- The rectangles change when an atlas is repacked. `tools/atlas_sprites.py <game>\data out` reads them from the
+  installed game: every sprite record, the pages, and a picture of each named sprite and each small unnamed one.
 
 ### The icon materials
 
@@ -65,6 +66,8 @@ shipped texture has to look like.
 - The 5f8113d2 shader's library (2807be7ec0203571) declares for the pixel program: the texture `diffuse_map`, a
   per-object `c0`, `glow_color` / `glow_range` / `glow_alpha_mul`, `shadow_color` / `shadow_offset` /
   `shadow_range` / `shadow_alpha_mul`, `scissor_rect`, `scissor_rect_offsets`, `scissor_mode`, `atlas_scissor`.
+- `tools/material_dump.py` writes a material's parse and a shader library's variable names from the installed
+  game.
 - **The icon's colour is the vertex colour:** the Color given to `Gui.bitmap_uv`. Setting `c0` changes nothing.
 - The recipe that draws them clean: a screen GUI, `Gui.material` for the GUI's own copy of the icon material,
   `Material.set_texture` of the page to slot 3aa8b87e every frame, `Gui.bitmap_uv` with the sprite's rectangle

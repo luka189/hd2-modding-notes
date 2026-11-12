@@ -25,6 +25,11 @@ The Steam build id is the `buildid` line of `steamapps/appmanifest_553850.acf`, 
 
 `filediver -T network_config -o extracted` writes `generated.network_config.main`.
 
+    python3 tools/parse_netcfg.py generated.network_config.main types.json
+    python3 tools/netcfg_diff.py old_types.json types.json
+
+The first lists every type with its fields; the second says what changed since another build's list.
+
 The game object types are stored one after the other. Each record, little-endian:
 
 | Part | Meaning |
@@ -60,3 +65,7 @@ list with the fields it reads can leave out a type that lost one, without an upd
 - For strings of up to 7 bytes MurmurHash64A reduces to its tail step, so the search is a few multiplications a
   string. A handful of new ids takes minutes on a multi-core machine; hundreds take hours.
 - A real name is found the other way round: hash a guess and look for the id in the config.
+
+    python3 tools/thin_hash.py --in types.json health reload_stage     # is a guessed name in the config?
+    cc -O3 -fopenmp -o crack_thin tools/crack_thin.c
+    ./crack_thin 0x5d9752f9 0x803159b3                                  # a stand-in name for each id

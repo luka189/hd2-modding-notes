@@ -8,14 +8,19 @@ The notes were written while building [NarrowHUD](https://www.nexusmods.com/hell
 ([source](https://github.com/luka189/NarrowHUD)), a HUD mod by luka189, from its in-game logs, crash traces and
 measurements between October and November 2026. Anything not listed below comes from that work.
 
+The mod, these notes and the tools were made by luka189 together with Claude, Anthropic's AI model. luka189 set
+the direction, decided what was built and did all the testing in the game; Claude wrote the code and the documents
+and read the logs.
+
 ## Tools the work rests on
 
 | Tool | Author | Used for |
 | --- | --- | --- |
 | [Chef Shared Loader](https://github.com/Th3chef/Chef-Shared-Loader) | Th3chef | The loader the notes describe; its `docs/MODDING.md` and changelog are the source for its API and version notes |
 | [filediver](https://github.com/xypwn/filediver) (BSD-3) | xypwn | Extracting the network config, unit meshes and textures; its hash list names units and textures; its documentation of the archive and material formats |
-| [HD2Runtime](https://github.com/SkyeShade/HD2Runtime) | SkyeShade | Research on the game's texture and icon layout, the texture atlas records, the bundle formats, and the icon mask shader |
+| [HD2Runtime](https://github.com/SkyeShade/HD2Runtime) | SkyeShade | Research on the game's texture and icon layout, the texture atlas records, the bundle formats, and the icon mask shader. `tools/atlas_sprites.py` and `tools/material_dump.py` follow these layouts and filediver's, in code of their own |
 | [gobwas/glob](https://github.com/gobwas/glob) | gobwas | The glob syntax filediver's patterns follow |
+| [lupa](https://github.com/scoder/lupa) (MIT) | Stefan Behnel and contributors | Lua 5.1 inside Python: `tools/lua_check.py` compiles with it, and mods run in it outside the game |
 | Stingray Lua API reference | Autodesk | Engine call signatures |
 
 ## Findings from other mods and modders

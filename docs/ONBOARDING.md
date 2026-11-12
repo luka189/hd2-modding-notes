@@ -103,7 +103,8 @@ PUC-Rio Lua 5.1.4 inside `helldivers2.exe`, under Easy Anti-Cheat.
 - **No game logic is in Lua.** `_G` holds the standard library, `stingray`, the print functions and boot's hooks.
   Gameplay is C++.
 - **Lua's limits:** 200 locals a function (the main chunk counts as one) and 60 upvalues a function. A large mod
-  hits both; modules as functions sharing one table stay under them.
+  hits both; modules as functions sharing one table stay under them. `tools/lua_check.py` reports how near each
+  function is, and every global a file reads or assigns.
 - **Worlds:** the ship and each mission are separate worlds with their own ids (`chef.world_id()`). Object ids
   start over in each world, and unit and GUI handles belong to one world.
 - **Engine values are short-lived:** a colour or vector object is valid for the frame it was made in.
