@@ -21,6 +21,7 @@ and read the logs.
 | [HD2Runtime](https://github.com/SkyeShade/HD2Runtime) | SkyeShade | Research on the game's texture and icon layout, the texture atlas records, the bundle formats, and the icon mask shader. `tools/atlas_sprites.py` and `tools/material_dump.py` follow these layouts and filediver's, in code of their own |
 | [gobwas/glob](https://github.com/gobwas/glob) | gobwas | The glob syntax filediver's patterns follow |
 | [lupa](https://github.com/scoder/lupa) (MIT) | Stefan Behnel and contributors | Lua 5.1 inside Python: `tools/lua_check.py` compiles with it, and mods run in it outside the game |
+| [trimesh](https://github.com/mikedh/trimesh), NumPy, SciPy, Pillow | their authors | Meshes, voxels and pictures in `tools/scenery_boxes.py` and `tools/scenery_review.py` |
 | Stingray Lua API reference | Autodesk | Engine call signatures |
 
 ## Findings from other mods and modders

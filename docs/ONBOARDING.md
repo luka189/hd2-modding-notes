@@ -241,6 +241,7 @@ come from the game's meshes, made offline and tested in the unit's frame in game
   5,377 units of 188 kinds.
 - **Cost in plain Lua:** about 0.1 ms a frame for one line against the boxes of 1,000–1,300 units. The distance
   checks are the bulk, not the box tests.
+- `tools/scenery_boxes.py` makes the boxes from exports, and `data/scenery_boxes.json` holds those of 878 kinds.
 
 ### filediver commands
 
