@@ -4,7 +4,7 @@ Reference notes for writing Lua mods for Helldivers 2 since the 20 October 2026 
 Lua 5.1): the loader and its sandbox, the engine calls that end the game, the network game objects and their
 fields, units and scenery, drawing, textures and icons.
 
-Last checked on game build Steam 26251122 (patch 7.2.2, 2026-10-29) with Chef Shared Loader 1.5.3.
+Last checked on game build Steam 26251122 (patch 7.2.2, 2026-10-29) with Chef Shared Loader 1.5.4.
 
 | File | What is in it |
 | --- | --- |
@@ -12,6 +12,7 @@ Last checked on game build Steam 26251122 (patch 7.2.2, 2026-10-29) with Chef Sh
 | [docs/FIELDS.md](docs/FIELDS.md) | The fields of the Helldiver, the player object, weapons and backpacks: ids, real names, values |
 | [docs/ICONS.md](docs/ICONS.md) | The game's HUD textures and atlas sprites, the icon materials, the texture layouts the game accepts, the data folder's formats |
 | [docs/SCENERY.md](docs/SCENERY.md) | Boxes in place of a raycast: the scenery data, how the boxes are made and chosen, and the test of a line against them in the game |
+| [docs/TESTING.md](docs/TESTING.md) | Testing a mod outside the game: the fake game, its rules, what it fakes and what it doesn't |
 | [docs/PATCHING.md](docs/PATCHING.md) | What a game patch can move, the network config's format, names for new ids |
 | [CREDITS.md](CREDITS.md) | Where the findings came from |
 
@@ -29,10 +30,11 @@ has not been tied to a crash.
 | [tools/atlas_sprites.py](tools/atlas_sprites.py) | Reads the texture atlas records from the installed game: each icon's page and uv rectangle, with pictures |
 | [tools/material_dump.py](tools/material_dump.py) | Dumps a material's shader template, texture slots and settings, and a shader library's variable names |
 | [tools/lua_check.py](tools/lua_check.py) | Compiles Lua 5.1 source without running it and reports stray globals and the functions near Lua's limits of 60 upvalues and 200 locals |
+| [tools/fakegame.py](tools/fakegame.py) | A fake game for testing a Chef mod from Python: network objects, units, camera and keys in, every draw and log line out; the calls that end the game raise an error ([fakegame_test.py](tools/fakegame_test.py): its own tests) |
 | [tools/scenery_boxes.py](tools/scenery_boxes.py) | Makes boxes for each kind of scenery from filediver's unit exports (boxes inside the solid, plates on flat faces, boxes over thin walls), as JSON or a Lua table |
 | [tools/scenery_review.py](tools/scenery_review.py), [scenery_review.html](tools/scenery_review.html) | The page `scenery_boxes.py --review` writes: every kind drawn with its boxes, to pick each kind's fill and leave kinds out by eye |
 
-- The Python tools need Python 3.8 or newer. `lua_check.py` also needs the `lupa` package; the scenery tools need
+- The Python tools need Python 3.8 or newer. `lua_check.py` and `fakegame.py` also need the `lupa` package; the scenery tools need
   `trimesh`, `numpy`, `scipy` and `pillow`; `lz4` is optional and makes the bundle reading faster.
 - `crack_thin.c` needs a C compiler with OpenMP.
 - The tools that read the installed game only read it. `atlas_sprites.py` and `material_dump.py` were last run
@@ -43,6 +45,12 @@ has not been tied to a crash.
 | File | What it does |
 | --- | --- |
 | [lua/scenery.lua](lua/scenery.lua) | A line against a unit's scenery boxes in plain Lua 5.1, with no engine calls: the unit's frame, the box round a kind's boxes, the test of a segment against plain and turned boxes |
+
+## Examples
+
+| Folder | What it is |
+| --- | --- |
+| [examples/health_readout](examples/health_readout) | A small mod (your health as text, read from the network objects with the checks that keep the game alive) and its tests in the fake game |
 
 ## Data
 

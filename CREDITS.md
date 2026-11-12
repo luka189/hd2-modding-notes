@@ -16,7 +16,7 @@ and read the logs.
 
 | Tool | Author | Used for |
 | --- | --- | --- |
-| [Chef Shared Loader](https://github.com/Th3chef/Chef-Shared-Loader) | Th3chef | The loader the notes describe; its `docs/MODDING.md` and changelog are the source for its API and version notes |
+| [Chef Shared Loader](https://github.com/Th3chef/Chef-Shared-Loader) | Th3chef | The loader the notes describe; its `docs/MODDING.md` and changelog are the source for its API and version notes, and `tools/fakegame.py` follows that API (in code of its own) |
 | [filediver](https://github.com/xypwn/filediver) (BSD-3) | xypwn | Extracting the network config, unit meshes and textures; its hash list names units and textures; its documentation of the archive and material formats |
 | [HD2Runtime](https://github.com/SkyeShade/HD2Runtime) | SkyeShade | Research on the game's texture and icon layout, the texture atlas records, the bundle formats, and the icon mask shader. `tools/atlas_sprites.py` and `tools/material_dump.py` follow these layouts and filediver's, in code of their own |
 | [gobwas/glob](https://github.com/gobwas/glob) | gobwas | The glob syntax filediver's patterns follow |

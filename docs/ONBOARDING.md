@@ -1,7 +1,7 @@
 # Helldivers 2 Lua modding: how it works
 
 Last checked on game build Steam 26251122 (2026-10-29, patch 7.2.2), engine string
-`stingray:46805 437a3d445f9df7662b60086ac8ae3c65b5c95da6`, with Chef Shared Loader 1.5.3.
+`stingray:46805 437a3d445f9df7662b60086ac8ae3c65b5c95da6`, with Chef Shared Loader 1.5.4.
 
 - [Since the 20 October 2026 patch](#since-the-20-october-2026-patch)
 - [The toolchain](#the-toolchain)
@@ -54,7 +54,8 @@ https://github.com/Th3chef/Chef-Shared-Loader (all rights reserved). Its `docs/M
   returned, flushed line by line. A `>` with no `<` names the call that killed the game, and the next launch's
   `chef_loader.log` says so.
 - **Versions:** 1.1 blocked game object reads; 1.2 allowed them again. 1.3.0: a call that ended the game is skipped
-  and the mod stays on (off only after 3 crashed launches). 1.4.0: `chef.bitmap` no longer strobes beside another
+  and the mod stays on; in 1.5.4 a call is skipped once two launches in a row end in it, and a mod is switched off
+  when it ends at least 4 launches in a row. 1.4.0: `chef.bitmap` no longer strobes beside another
   mod's bitmaps. 1.5.0: a mod switched in F9 stops and starts in the same launch (an `on_stop` makes it a real
   stop), saved tables keep every byte up to 256 KB, a unit from an earlier world is refused for good, `chef.mods()`
   counts skipped calls.
@@ -97,8 +98,10 @@ fields a type declares on the running build, so a mod can check at start that ev
 
 PUC-Rio Lua 5.1.4 inside `helldivers2.exe`, under Easy Anti-Cheat.
 
-- **Missing:** `ffi`, `bit`, `jit`, `goto`. There are no 64-bit integers: 64-bit ids are compared as hex strings or
-  as engine `IdString64` values.
+- **Missing from the game's Lua:** `ffi`, `jit`, `goto`, `bit`, `load` and `loadfile`. There are no 64-bit
+  integers: 64-bit ids are compared as hex strings or as engine `IdString64` values.
+- **Put back by Chef:** a pure-Lua `bit` with LuaJIT's results, `table.new`, `table.clear`, `table.unpack`, and
+  `load` from a string.
 - **Present:** `io`, `os`, `debug` and the whole `stingray` API (126 engine tables), through the loader's sandbox.
 - **No game logic is in Lua.** `_G` holds the standard library, `stingray`, the print functions and boot's hooks.
   Gameplay is C++.
@@ -301,13 +304,10 @@ pings, hit markers, the stratagem cooldowns.
 
 ## Testing outside the game
 
-- A Chef mod runs outside the game in `lupa.lua51` (Python) against a fake `chef` table and fake engine tables:
-  objects as tables of fields, a fake camera, fake `Unit.box` and `chef.ray_box`, and every drawn rect, triangle
-  and text recorded per frame.
-- A fake `game_object_field` that raises on an object that is gone, or on a field its type doesn't declare, finds
-  the reads that would end the game.
-- A fake `chef.color` and draw calls that reject anything but a colour object find the slow `chef.line` path.
-- What such a harness cannot show: the real font's glyph widths, the real field lists of a new game build, and
+- `tools/fakegame.py` runs a mod in Lua 5.1 against a fake game set up from Python: network objects, units, the
+  camera, keys. The calls that end the game raise an error there. [TESTING.md](TESTING.md) has the whole of it.
+- Chef's own `tools/modsim` runs the real loader through a scripted session, without game state.
+- What a fake game cannot show: the real font's glyph widths, the real field lists of a new game build, and
   timing that depends on the game's clock.
 - A log recorded in game (every field's value and change) can be replayed through the same fake game.
 - A field's meaning is found fastest by short missions that differ in one thing each (one attachment changed, one
